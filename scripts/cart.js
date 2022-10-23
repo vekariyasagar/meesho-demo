@@ -2,14 +2,12 @@ let cart = document.getElementById("cart");
 let cartHeader = document.getElementById("cart-header");
 
 let generateReceipt = document.getElementById("generateReceipt");
-console.log('generateReceipt :>> ', generateReceipt);
 
-let userDetailReceipt = document.getElementById("userDetailReceipt");
-console.log('userDetailReceipt :>> ', userDetailReceipt);
-let billAmount = document.getElementById("billAmount");
-console.log('billAmount :>> ', billAmount);
-let cartBill = document.getElementById("cartBill");
-console.log('cartBill :>> ', cartBill);
+let userFinalReceiptData = '';
+
+let userDetailReceiptData ='';
+let cartBillData = '';
+let billAmountData = '';
 
 let selectedProduct = JSON.parse(localStorage.getItem("product")) || [];
 
@@ -184,6 +182,103 @@ let displayCartItems = () => {
 
 }
 
+let displayUserDetail = () => {    
+    var d = new Date(Date.now());
+    var date = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
+
+    var selectedProvince = "";
+
+    switch (province) {
+        case 'alberta':
+            selectedProvince = "Alberta";
+            break;
+        case 'bc':
+            selectedProvince = "British Columbia";
+            break;
+        case 'manitoba':
+            selectedProvince = "Manitoba";
+            break;
+        case 'new_brunswick':
+            selectedProvince = "New Brunswick";
+            break;   
+        case 'new_found_labra':
+            selectedProvince = "New Foundland and Labrador";
+            break;
+        case 'nortwest':
+            selectedProvince = "Northwest Territories";
+            break;
+        case 'nova_scotia':
+            selectedProvince = "Nova Scotia";
+            break;
+        case 'nunavut':
+            selectedProvince = "Nunavut";
+            break;
+        case 'ontario':
+            selectedProvince = "Ontario";
+            break;
+        case 'edward_island':
+            selectedProvince = "Prince Edward Island";
+            break;
+        case 'quebec':
+            selectedProvince = "Quebec";
+            break;
+        case 'sas':
+            selectedProvince = "Saskatchewan";
+            break;
+        case 'yukon':
+            selectedProvince = "Yukon";
+            break; 
+        default:
+            break;
+    }
+
+    userDetailReceiptData  = `
+            <h2>Receipt</h2>
+            <hr class="line">
+            <h5 class="date">Date: ${date}</h5>
+            <div class="details">
+                <div class="userDetail">
+                    Name : ${customerName}<br>
+                    Mobile Number : ${phone}<br>
+                    Email : ${email}<br>
+                    Address : ${address}, ${city}, ${selectedProvince}, ${postcode}
+                </div>
+                <div class="checkputDetail">
+                    Card Number : ${cardNumber}<br>
+                    Expiry Month : ${expMonth}<br>
+                    Expiry Year : ${expYear}<br>
+                </div>
+            </div>
+            <table>
+                <tr class="tableHeader">
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                </tr>
+    `;
+
+};
+
+let displayBill = () => {
+    cartBillAllRows = selectedProduct
+        .map((x) => {
+          let { id, item } = x;
+          let searchItem = productDetail.find((i) => i.id == id) || [];
+          return `
+                <tr>
+                    <td>${searchItem.name}</td>
+                    <td>${item} </td>
+                    <td>$${searchItem.price}</td>
+                    <td>$${searchItem.price * item}</td>
+                </tr>
+                
+        `;
+        }).join("");
+        cartBillData = `<tbody> ${cartBillAllRows}`
+  };
+
+
 let displayTotal = () => {
 
     let subTotal = selectedProduct
@@ -212,8 +307,7 @@ let displayTotal = () => {
     var tax = subTotal * taxRate;
     var total = subTotal + tax;
 
-    billAmount.innerHTML = `
-            <table>
+    billAmountData = `
                 <tr>
                     <td></td>
                     <td></td>
@@ -232,96 +326,13 @@ let displayTotal = () => {
                     <td><h5>Total<h5></td>
                     <td><h5>$${total.toPrecision(4)}<h5></td>
                 </tr>
-            </table>
-            <div class="greetings">
-                <h5>Thank you for choosing us!</h5>
-            </div>
+            </tbody>
+        </table>
+        <div class="greetings">
+            <h5>Thank you for choosing us!</h5>
+        </div>
         `;
-
   }
-
-let displayUserDetail = () => {    
-    var d = new Date(Date.now());
-    var date = d.getDate() + "/" + (d.getMonth()+1) + "/" + d.getFullYear();
-
-    var selectedProvince = "";
-
-    if(province == "alberta") {
-        selectedProvince = "Alberta";
-    } else if ( province == "bc") {
-        selectedProvince = "British Columbia";
-    } else if ( province == "manitoba") {
-        selectedProvince = "Manitoba";
-    } else if ( province == "new_brunswick") {
-        selectedProvince = "New Brunswick";
-    } else if ( province == "new_found_labra") {
-        selectedProvince = "New Foundland and Labrador";
-    } else if ( province == "nortwest") {
-        selectedProvince = "Northwest Territories";
-    } else if ( province == "nova_scotia") {
-        selectedProvince = "Nova Scotia";
-    } else if ( province == "nunavut") {
-        selectedProvince = "Nunavut";
-    } else if ( province == "ontario") {
-        selectedProvince = "Ontario";
-    } else if ( province == "edward_island") {
-        selectedProvince = "Prince Edward Island";
-    } else if ( province == "quebec") {
-        selectedProvince = "Quebec";
-    } else if ( province == "sas") {
-        selectedProvince = "Saskatchewan";
-    } else if ( province == "yukon") {
-        selectedProvince = "Yukon";
-    }
-
-    userDetailReceipt.innerHTML = `
-            <h2>Receipt</h2>
-            <hr class="line">
-            <h5 class="date">Date: ${date}</h5>
-            <div class="details">
-                <div class="userDetail">
-                    Name : ${customerName}<br>
-                    Mobile Number : ${phone}<br>
-                    Email : ${email}<br>
-                    Address : ${address}, ${city}, ${selectedProvince}, ${postcode}
-                </div>
-                <div class="checkputDetail">
-                    Card Number : ${cardNumber}<br>
-                    Expiry Month : ${expMonth}<br>
-                    Expiry Year : ${expYear}<br>
-                </div>
-            </div>
-            <table class="tableHeader">
-                <tr>
-                    <th>Item</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Amount</th>
-                </tr>
-            </table>
-    `;
-
-};
-
-let displayBill = () => {
-    return (cartBill.innerHTML = selectedProduct
-        .map((x) => {
-          let { id, item } = x;
-          let searchItem = productDetail.find((i) => i.id == id) || [];
-          return `
-            <table>
-                <tr>
-                    <td>${searchItem.name}</td>
-                    <td>${item} </td>
-                    <td>$${searchItem.price}</td>
-                    <td>$${searchItem.price * item}</td>
-                </tr>
-            </table>
-            <hr class="billLine">
-        `;
-        })
-        .join(""));
-  };
 
     let cardNumber = "";
     let expMonth = "";
@@ -435,16 +446,21 @@ function validateCheckoutData(){
         return false;
     } else {
         generateReceipt.classList.add('main-box');
-        displayUserDetail();
-        displayBill();
-        displayTotal();
+        finalDisplayUserDetailReceipt();
         return true;
     }
 
 }
 
+function finalDisplayUserDetailReceipt() {
+    displayUserDetail();
+    displayBill();
+    displayTotal();
+    const userFinalReceiptData = userDetailReceiptData.concat(cartBillData).concat(billAmountData);
+    console.log('userFinalReceiptData :>> ', userFinalReceiptData);
+    userFinalReceipt.innerHTML = userFinalReceiptData;
+}
+
 generateReceipt.classList.add('main-box');
-displayUserDetail();
-displayBill();
-displayTotal();
+finalDisplayUserDetailReceipt();
 
