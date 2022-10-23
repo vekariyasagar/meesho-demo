@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meesho - Shopping everywhere</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+
+    <header>
+        <a href="#"><img src="images/logo.png" class="logo" alt="logo"></a>
+        <nav>
+            <ul id="navbar">
+                <li><a href="index.html">Home</a></li>
+                <li><a class="active" href="cart.html">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="product" class="section-p1">
+        <div id="label"></div>
+        <div id="cart-header">
+            <table>
+                <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total Price</th>
+                </tr>
+            </table>
+        </div>
+        <div id="cart" class="cartlist">
+        </div>
+    </section>
+
+    <section id="contact-detail" class="section-p1">
+        <div id="contact-form">
+            <form>
+                <h2>Contact</h2>
+                <input type="text" placeholder="Name" id="name" name="name" value="">
+                <span id="errName" class="errorText"></span>
+                <input type="text" placeholder="Phone" id="phone" name="phone" value="">
+                <span id="errPhone" class="errorText"></span>
+                <input type="text" placeholder="Postcode" id="postcode" name="postcode" value="">
+                <span id="errPostcode" class="errorText"></span>
+                <input type="text" placeholder="Address" id="address" name="address" value="">
+                <span id="errAddress" class="errorText"></span>
+                <input type="text" placeholder="City" id="city" name="city" value="">
+                <span id="errCity" class="errorText"></span>
+                <select name="province" id="province">
+                    <option value="alberta">Alberta</option>
+                    <option value="bc">British Columbia</option>
+                    <option value="manitoba">Manitoba</option>
+                    <option value="new_brunswick">New Brunswick</option>
+                    <option value="new_found_labra">New Foundland and Labrador</option>
+                    <option value="nortwest">Northwest Territories</option>
+                    <option value="nova_scotia">Nova Scotia</option>
+                    <option value="nunavut">Nunavut</option>
+                    <option value="ontario">Ontario</option>
+                    <option value="edward_island">Prince Edward Island</option>
+                    <option value="quebec">Quebec</option>
+                    <option value="sas">Saskatchewan</option>
+                    <option value="yukon">Yukon</option>
+                  </select>
+                <span id="errProvince" class="errorText"></span>
+                <button type="button" class="normal" onclick="validateUserData()">Save</button><br><br>
+            </form>
+        </div>
+        <div id="checkout-form">
+            <form>
+                <h2>Checkout</h2>
+                <label for="cardnumber">Card Number</label>
+                <input type="text" placeholder="XXXX-XXXX-XXXX-XXXX" id="cardnumber" name="cardnumber" value="">
+                <span id="errCardNumber" class="errorText"></span><br><br>
+                <div id="expiry">
+                    <div class="expiry-month">
+                        <label for="month">Expiry Month</label>
+                        <select name="month" id="month">
+                            <option value="jan">JAN</option>
+                            <option value="feb">FEB</option>
+                            <option value="mar">MAR</option>
+                            <option value="apr">APR</option>
+                            <option value="may">MAY</option>
+                            <option value="jun">JUN</option>
+                            <option value="jul">JUL</option>
+                            <option value="aug">AUG</option>
+                            <option value="sep">SEP</option>
+                            <option value="oct">OCT</option>
+                            <option value="nov">NOV</option>
+                            <option value="dec">DEC</option>
+                        </select>
+                      </div>
+                      <span id="errMonth" class="errorText"></span>
+                      <div class="expiry-year">
+                        <label for="year">Expiry Year</label>
+                        <select name="year" id="year">
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+                            <option value="2031">2031</option>
+                            <option value="2032">2032</option>
+                            <option value="2033">2033</option>
+                            <option value="2034">2034</option>
+                            <option value="2035">2035</option>
+                        </select>
+                      </div>
+                      <span id="errYear" class="errorText"></span>
+                </div> <br>
+                <label for="email">Email</label>
+                <input type="email" placeholder="Email" id="email" name="email" value="">
+                <span id="errEmail" class="errorText"></span><br><br>
+                <label for="password">Password</label>
+                <input type="password" placeholder="Password" id="password" name="password" value="">
+                <span id="errPassword" class="errorText"></span><br><br>
+                <label for="conpassword">Confirm Password</label>
+                <input type="password" placeholder="Confirm Password" id="conpassword" name="conpassword" value="">
+                <span id="errConPassword" class="errorText"></span><br>
+                <button type="button" class="normal" onclick="validateCheckoutData()">Generate Receipt</button><br><br>
+                <span id="errCheckout" class="errorText"></span>
+            </form>
+        </div>
+    </section>
+
+    <section id="receipt" class="section-p1">
+        <div id="generateReceipt" class="main-box">
+            <div id="userDetailReceipt"><div>
+            <div id="cartBill"></div>
+            <div id="billAmount"></div>
+        </div>
+    </section>
+
+    <footer id="footer" class="section-p1">
+        <h5>&copy; 2022, Sagar Vekariya - Meesho - Assignment-2</h5>
+    </footer>
+
+    <script src="scripts/product_detail.js"></script>
+    <script src="scripts/cart.js"></script>
+
+</body>
+
+</html>
